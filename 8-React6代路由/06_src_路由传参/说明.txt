@@ -1,0 +1,54 @@
+在message里面又加了一层路由，点击路由之后，在下面的一个Detail组件中呈现这个消息的详细信息
+相当于传参给下面的Detail组件了,有三种方式
+1.params方式，现在路径中占位'detail/:id/:title/:content'，然后Link中写<Link to={`detail/${m.id}/${m.title}/${m.content}`}>{m.title}</Link>，
+Detail组件接收参数的方式是使用useParams:
+function Detail(props) {
+    const {id,title,content} = useParams()
+    return (
+        <ul>
+            <li>{id}</li>
+            <li>{title}</li>
+            <li>{content}</li>
+        </ul>
+    );
+}
+
+2.使用search参数
+<Link to={`detail?id=${m.id}&title=${m.title}&content=${m.content}`}>{m.title}</Link>
+规则部分不用进行占位操作，接着Detail组件里用useSearchParams获取search参数
+function Detail(props) {
+    const [search,setsearch] = useSearchParams()
+    return (
+        <ul>
+            <li>{search.get('id')}</li>
+            <li>{search.get('title')}</li>
+            <li>{search.get('content')}</li>
+        </ul>
+    );
+}
+3.使用state参数（我个人喜欢这种，因为不会再地址栏中出现传递参数的信息）
+messages.map((m)=>{
+    return (
+        <li key={m.id}>
+
+            <Link
+            to={"detail"}
+            state={{
+                id:m.id,
+                title:m.title,
+                content:m.content
+            }}>{m.title}</Link>
+        </li>
+    )
+})
+Detail组件使用Location对象获取传递过来的state参数
+function Detail(props) {
+    const {state:{id,title,content}} = useLocation()//从location对象中获得state对象
+    return (
+        <ul>
+            <li>{id}</li>
+            <li>{title}</li>
+            <li>{content}</li>
+        </ul>
+    );
+}

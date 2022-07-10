@@ -1,0 +1,28 @@
+在不点击Link或者NavLink或者Navigate渲染的情况下，实现页面跳转。使用钩子useNavigate即可实现。
+在06_src_路由传参的基础上，实现点击按钮来渲染出页面而不是点击Link标签.
+function showDetail(m){
+        navigate('detail',{
+            replace:false,
+            state:{
+                id:m.id,
+                title:m.title,
+                content:m.content
+            }
+            }
+        )
+    }
+
+
+<li key={m.id}>
+    <Link
+    to={"detail"}
+    state={{
+        id:m.id,
+        title:m.title,
+        content:m.content
+    }}>{m.title}</Link>
+    <button onClick={()=>showDetail(m)}>查看详情</button>
+</li>
+
+另外在所有组件中（无论是路由组件还是普通组件），使用useNavigate钩子就可以使用Navigate进行跳转，
+比如navigate(1)就是往前一个页面，navigate(-1)就是后退一个页面

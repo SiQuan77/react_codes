@@ -1,0 +1,3 @@
+因为使用了bootstrap，bootstrap里面高亮的class正好就是active，而NavLink被点击时，它的class属性
+就会被加上active。那如果我的高亮效果不是class=active时，需要使用箭头函数实现，函数中的接受的参数
+就是{isActive:true},()中使用解构赋值获得isActive的真假值,通过isActive判断是否被点击了然后return对应的class属性值即可
